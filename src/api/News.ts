@@ -1,3 +1,11 @@
+import { INewsItem } from "../models/news";
+
+interface INewsResponse {
+  status: number;
+  data: INewsItem[];
+  errroString?: string;
+}
+
 const fakeData = [
   {
     id: 1,
@@ -24,8 +32,8 @@ const fakeData = [
   }
 ];
 
-export const getNews = () => {
-  const promise = new Promise(resolve => {
+export const getNews = (): Promise<INewsResponse> => {
+  const promise = new Promise<INewsResponse>(resolve => {
     resolve({
       status: 200,
       data: fakeData
