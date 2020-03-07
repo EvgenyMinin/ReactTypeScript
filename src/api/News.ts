@@ -3,7 +3,7 @@ import { INewsItem } from "../models/news";
 interface INewsResponse {
   status: number;
   data: INewsItem[];
-  errroString?: string;
+  errorText?: string;
 }
 
 const fakeData = [

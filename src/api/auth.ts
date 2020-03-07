@@ -7,7 +7,15 @@ interface IAuthResponse {
   errorText?: string;
 }
 
-const checkCredentials = (data: IUserIdentity): Promise<IAuthResponse> => {
+const checkCredentials = (data: IUserIdentity): boolean => {
+  if (data.username === "admin") {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const authenticate = (data: IUserIdentity): Promise<IAuthResponse> => {
   const promise = new Promise<IAuthResponse>((resolve, reject) => {
     if (!checkCredentials(data)) {
       reject({

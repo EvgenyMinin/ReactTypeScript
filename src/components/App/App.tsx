@@ -1,38 +1,42 @@
 import React from "react";
 import { Link, Router, RouteComponentProps } from "@reach/router";
 import News from "../News/News";
-import About from "../About/About";
+import { checkAuthStatus, logout } from "../../api/auth";
+import Login from "../../pages/Login";
 
 import "./styles.scss";
+import Authenticated from "../common/Authenticated";
+import Profile from "../../pages/Profile";
 
 interface IAppProps extends RouteComponentProps {
   name: string;
-  site: string;
 }
 
-const App: React.FC<IAppProps> = props => {
+const App: React.FC<IAppProps> = ({ name, children }) => {
   return (
     <div className="App">
       <h1 className="App__header">Project with hooks and TypeScript</h1>
       <nav>
-        <Link to="/">Home</Link> <Link to="news">News</Link>{" "}
-        <Link to="/about/habr">About habr</Link>
+        <Link to="/">Домой</Link> <Link to="news">Новости</Link>{" "}
+        <Link to="profile">Профиль</Link>
+        {checkAuthStatus() ? <button onClick={logout}>Выйти</button> : null}
       </nav>
       <hr />
-      <p>
-        Автор: {props.name} | Сайт: {props.site}
-      </p>
+      <p>Автор: {name}</p>
       <hr />
-      {props.children}
+      {children}
     </div>
   );
 };
 
 const RouterApp = () => (
   <Router>
-    <App path="/" name="John" site="johnfrontend.ru">
+    <App path="/" name="Evgeny Minin">
+      <Login path="login" />
       <News path="/news" />
-      <About path="/about/:source" />
+      <Authenticated path="/profile">
+        <Profile path="/" />
+      </Authenticated>
     </App>
   </Router>
 );
