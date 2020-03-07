@@ -2,6 +2,9 @@ import React, { useState, SyntheticEvent } from "react";
 import { RouteComponentProps, navigate } from "@reach/router";
 import { IUserIdentity } from "../models/user";
 import { authenticate } from "../api/auth";
+import { formErrors } from "../localization/formErrors";
+
+const lang = "ru";
 
 const Login: React.FC<RouteComponentProps> = () => {
   const [user, setField] = useState<IUserIdentity>({
@@ -28,7 +31,7 @@ const Login: React.FC<RouteComponentProps> = () => {
       })
       .catch(err => {
         if (err.errorText) {
-          setNotification(err.errorText);
+          setNotification(formErrors[lang][err.errorText]);
         } else {
           // tslint:disable-next-line: no-console
           console.warn("request problem", err);
